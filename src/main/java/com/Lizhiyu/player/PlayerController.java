@@ -13,10 +13,10 @@ import java.util.List;
 public class PlayerController {
 
 	@Autowired
-	private PlayerProperties playerProperties;
+	private PlayerRepository playerRepository;
 
 	@GetMapping(value = "/players")
 	public List<Player> PlayerList() {
-		return playerProperties.findAll();
+		return playerRepository.findAll();
 	}
 }
