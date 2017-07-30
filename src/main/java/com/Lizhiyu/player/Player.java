@@ -1,14 +1,21 @@
 package com.Lizhiyu.player;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import org.springframework.data.jpa.repository.JpaRepository;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import java.io.Serializable;
 
 /**
  * Created by lzy on 17-7-28.
  */
 @Entity
-public class Player {
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+public class Player implements Serializable{
+
+	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue
@@ -43,5 +50,14 @@ public class Player {
 	}
 
 	public Player() {
+	}
+
+	@Override
+	public String toString() {
+		return "Player{" +
+				"id=" + id +
+				", name='" + name + '\'' +
+				", club=" + club +
+				'}';
 	}
 }
