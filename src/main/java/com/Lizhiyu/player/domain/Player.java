@@ -1,11 +1,13 @@
-package com.Lizhiyu.player;
+package com.Lizhiyu.player.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import org.springframework.data.jpa.repository.JpaRepository;
+import org.hibernate.validator.constraints.NotBlank;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
 /**
@@ -21,8 +23,13 @@ public class Player implements Serializable{
 	@GeneratedValue
 	private Integer id;
 
+	@NotBlank(message = "这个字段必传")
 	private String name;
 
+	@Min(value = 18,message = "未成年球员禁止转会！")
+	private Integer age;
+
+	@NotNull(message = "club值必传")
 	private String club;
 
 	public Integer getId() {
@@ -49,6 +56,14 @@ public class Player implements Serializable{
 		this.club = club;
 	}
 
+	public Integer getAge() {
+		return age;
+	}
+
+	public void setAge(Integer age) {
+		this.age = age;
+	}
+
 	public Player() {
 	}
 
@@ -57,7 +72,8 @@ public class Player implements Serializable{
 		return "Player{" +
 				"id=" + id +
 				", name='" + name + '\'' +
-				", club=" + club +
+				", club='" + club + '\'' +
+				", age=" + age +
 				'}';
 	}
 }
