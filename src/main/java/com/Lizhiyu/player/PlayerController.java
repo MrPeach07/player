@@ -17,6 +17,9 @@ public class PlayerController {
 	@Autowired
 	private PlayerRepository playerRepository;
 
+	@Autowired
+	private PlayerService playerService;
+
 
 	/**
 	 * 查询所有球员列表
@@ -94,6 +97,11 @@ public class PlayerController {
 	@GetMapping(value = "/players/club/{club}")
 	public List<Player> playerListByClub(@PathVariable("club") String club) {
 		return playerRepository.findByClub(club);
+	}
+
+	@PostMapping(value = "/players/two")
+	public void playerTwo() {
+		playerService.insertTwo();
 	}
 
 }
