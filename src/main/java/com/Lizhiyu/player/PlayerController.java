@@ -99,6 +99,9 @@ public class PlayerController {
 		return playerRepository.findByClub(club);
 	}
 
+	/**
+	 *一次插入两条数据事务方法的调用
+	 */
 	@PostMapping(value = "/players/two")
 	public void playerTwo() {
 		playerService.insertTwo();
