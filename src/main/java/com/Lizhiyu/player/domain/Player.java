@@ -23,13 +23,12 @@ public class Player implements Serializable{
 	@GeneratedValue
 	private Integer id;
 
-	@NotBlank(message = "这个字段必传")
 	private String name;
 
 	@Min(value = 18,message = "未成年球员禁止转会！")
 	private Integer age;
 
-	@NotNull(message = "club值必传")
+	@NotBlank(message = "俱乐部值必传")
 	private String club;
 
 	public Integer getId() {
