@@ -1,4 +1,4 @@
-package com.Lizhiyu.player;
+package com.Lizhiyu.player.properties;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
@@ -10,9 +10,21 @@ import org.springframework.stereotype.Component;
 @Component
 public class PlayerProperties {
 
+	private Integer id;
+
 	private String name;
 
 	private String club;
+
+	private Integer age;
+
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
 
 	public String getName() {
 		return name;
@@ -28,5 +40,13 @@ public class PlayerProperties {
 
 	public void setClub(String club) {
 		this.club = club;
+	}
+
+	public Integer getAge() {
+		return age;
+	}
+
+	public void setAge(Integer age) {
+		this.age = age;
 	}
 }
