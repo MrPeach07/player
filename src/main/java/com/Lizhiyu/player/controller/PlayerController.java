@@ -1,10 +1,18 @@
-package com.Lizhiyu.player;
+package com.Lizhiyu.player.controller;
 
+import com.Lizhiyu.player.aspect.HttpAspect;
+import com.Lizhiyu.player.domain.Result;
+import com.Lizhiyu.player.service.PlayerService;
+import com.Lizhiyu.player.utils.ResultUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import com.Lizhiyu.player.Player;
-import com.Lizhiyu.player.PlayerRepository;
+import com.Lizhiyu.player.domain.Player;
+import com.Lizhiyu.player.repository.PlayerRepository;
 
+import javax.validation.Valid;
 import java.util.List;
 
 
@@ -13,6 +21,9 @@ import java.util.List;
  */
 @RestController
 public class PlayerController {
+
+	private final static Logger logger = LoggerFactory.getLogger(PlayerController.class);
+
 
 	@Autowired
 	private PlayerRepository playerRepository;
@@ -26,27 +37,28 @@ public class PlayerController {
 	 * @return
 	 */
 	@GetMapping(value = "/players")
-	public List<Player> PlayerList() {
+	public List<Player> playerList() {
+		logger.info("playerList");
 		return playerRepository.findAll();
 	}
 
 	/**
 	 * 添加一个球员
-	 * @param id
-	 * @param name
-	 * @param club
 	 * @return 球员对象
 	 */
 	@PostMapping(value = "/players")
-	public Player playerAdd(@RequestParam("id") Integer id,
-							@RequestParam("name") String name,
-							@RequestParam("club") String club) {
-		Player player = new Player();
-		player.setId(id);
-		player.setClub(club);
-		player.setName(name);
+	public Result<Player> playerAdd(@Valid Player player, BindingResult bindingResult) {
+		if(bindingResult.hasErrors()) {
+			return null;
+			//			return ResultUtil.error(1,bindingResult.getFieldError().getDefaultMessage());
+		}
 
-		return playerRepository.save(player);
+			player.setName(player.getName());
+			player.setClub(player.getClub());
+			player.setAge(player.getAge());
+
+			return ResultUtil.success(playerRepository.save(player));
+
 	}
 
 
@@ -70,11 +82,13 @@ public class PlayerController {
 	@PutMapping(value = "/players/{id}")
 	public Player playerUpdate(@PathVariable("id") Integer id,
 							 @RequestParam("name") String name,
-							 @RequestParam("club") String club) {
+							 @RequestParam("club") String club,
+							 @RequestParam("age") Integer age) {
 		Player player = new Player();
 		player.setId(id);
 		player.setName(name);
 		player.setClub(club);
+		player.setAge(age);
 
 		return playerRepository.save(player);
 	}
@@ -107,4 +121,8 @@ public class PlayerController {
 		playerService.insertTwo();
 	}
 
+	@GetMapping(value = "players/getAge/{id}")
+	public void getAge(@PathVariable("id") Integer id) throws Exception {
+		playerService.getAge(id);
+	}
 }
